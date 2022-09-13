@@ -1,5 +1,4 @@
 import type { Identifier, XYCoord } from 'dnd-core'
-import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 
@@ -31,38 +30,29 @@ interface DragItem {
   type: string
 }
 
-export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
+function Card(props: CardProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
+
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null}>({
     accept: ItemTypes.CARD,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       }
     },
-    hover(item: DragItem, monitor) {
+    hover(item, monitor) {
       if (!ref.current) {
         return
       }
       const dragIndex = item.index
-      const hoverIndex = index
+      const hoverIndex = props.index
 
-      // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
         return
       }
       
-      // Time to actually perform the action
-      moveCard(dragIndex, hoverIndex)
+      props.moveCard(dragIndex, hoverIndex)
 
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
       item.index = hoverIndex
     },
   })
@@ -70,7 +60,7 @@ export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id, index }
+      return {id: props.id, text: props.text}
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
@@ -81,7 +71,9 @@ export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
   drag(drop(ref))
   return (
     <div ref={ref} style={{ opacity }} data-handler-id={handlerId} className={styles.card}>
-      <h2>{text}</h2>
+      <h2>{props.text}</h2>
     </div>
   )
 }
+
+export default Card

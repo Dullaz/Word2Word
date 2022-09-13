@@ -3,7 +3,7 @@ import React, {useCallback, useState, FC} from "react";
 import update from 'immutability-helper'
 import styles from '../../styles/Home.module.css'
 
-import {Card} from './Card'
+import Card from './Card'
 
 interface Letter {
   id: number,
@@ -16,14 +16,15 @@ interface WordState {
 
 const checkTarget = (cards: Letter[]) => {
   const target = [3,2,1]
-  console.log(cards.map((card, i) => card.text).toString())
+  console.log(cards);
   for(var card of cards) {
+    if(card == undefined) return false
     if(card.id != target.pop()) { return false }
   }
   return true
 }
 
-export const Word: FC = () => {
+function Word() {
   const [cards, setCards] = useState([
     {
       id: 1,
@@ -77,3 +78,5 @@ export const Word: FC = () => {
       </>
     )
 }
+
+export default Word
