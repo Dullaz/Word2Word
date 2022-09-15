@@ -30,8 +30,7 @@ interface DragItem {
 }
 
 export const Card: React.FC<CardProps> = (props) => {
-
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
@@ -41,50 +40,55 @@ export const Card: React.FC<CardProps> = (props) => {
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
-      }
+      };
     },
     hover(item: DragItem, monitor) {
       if (!ref.current) {
-        return
+        return;
       }
-      const dragIndex = item.index
-      const hoverIndex = props.index
+      const dragIndex = item.index;
+      const hoverIndex = props.index;
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
-        return
+        return;
       }
 
       // Time to actually perform the action
-      props.moveCard(dragIndex, hoverIndex)
+      props.moveCard(dragIndex, hoverIndex);
 
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
       // to avoid expensive index searches.
-      item.index = hoverIndex
+      item.index = hoverIndex;
     },
-  })
+  });
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id:props.id, index:props.index }
+      return { id: props.id, index: props.index };
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
     canDrag: (monitor: any) => {
-      console.log(!gprops.enabled)
-      return !props.enabled
-    }
-  })
+      console.log(!props.enabled);
+      return !props.enabled;
+    },
+  });
 
-  const opacity = isDragging ? 0 : 1
-  drag(drop(ref))
+  const opacity = isDragging ? 0 : 1;
+  drag(drop(ref));
   return (
-    <div ref={ref} className={styles.card} style={{ opacity }} data-handler-id={handlerId}>
+    <div
+      ref={ref}
+      className={styles.card}
+      style={{ opacity }}
+      data-handler-id={handlerId}
+    >
       <span>{props.text}</span>
     </div>
-  )
-}
+  );
+};
