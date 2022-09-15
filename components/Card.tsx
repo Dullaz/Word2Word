@@ -28,9 +28,9 @@ interface DragItem {
   type: string;
 }
 
-function Card(props: CardProps) {
-  const ref = useRef<HTMLDivElement>(null);
+export const Card: React.FC<CardProps> = (props) => {
 
+  const ref = useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
@@ -40,47 +40,46 @@ function Card(props: CardProps) {
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
-      };
+      }
     },
-    hover(item, monitor) {
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
-        return;
+        return
       }
-      const dragIndex = item.index;
-      const hoverIndex = props.index;
+      const dragIndex = item.index
+      const hoverIndex = props.index
 
+      // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
-        return;
+        return
       }
 
-      props.moveCard(dragIndex, hoverIndex);
+      // Time to actually perform the action
+      props.moveCard(dragIndex, hoverIndex)
 
-      item.index = hoverIndex;
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex
     },
-  });
+  })
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id: props.id, text: props.text };
+      return { id:props.id, index:props.index }
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  })
 
-  const opacity = isDragging ? 0 : 1;
-  drag(drop(ref));
+  const opacity = isDragging ? 0 : 1
+  drag(drop(ref))
   return (
-    <div
-      ref={ref}
-      style={{ opacity }}
-      data-handler-id={handlerId}
-      className={styles.card}
-    >
-      <h2>{props.text}</h2>
+    <div ref={ref} className={styles.card} style={{ opacity }} data-handler-id={handlerId}>
+      <span>{props.text}</span>
     </div>
-  );
+  )
 }
-
-export default Card;

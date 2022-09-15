@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import Word from '../components/Word';
+import {WordGrid} from '../components/WordGrid';
 
 const Home: NextPage = () => {
   return (
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
         </p>
 
         <DndProvider backend={HTML5Backend}>
-          <Word />
+          <WordGrid text='ABCD' />
         </DndProvider>
       </main>
 
