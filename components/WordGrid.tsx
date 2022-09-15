@@ -5,7 +5,8 @@ import {Card} from './Card'
 import styles from '../styles/Home.module.css';
 
 export interface Word {
-    text: string
+    text: string,
+    solution: string
 }
 
 export interface Item {
@@ -30,7 +31,15 @@ export const WordGrid: React.FC<Word> = (word) => {
             ],
           }),
         )
+
       }, [])
+    // check if solution is met
+    var current = cards.map((card, i) => card.text).join("")
+    const [solved, setSolved] = useState(false)
+    if(current === word.solution && !solved) {
+        setSolved(true);
+    }
+    console.log("STATE: ", solved)
 
       const renderCard = useCallback(
         (card: { id: number; text: string }, index: number) => {
@@ -40,6 +49,7 @@ export const WordGrid: React.FC<Word> = (word) => {
               index={index}
               id={card.id}
               text={card.text}
+              enabled={solved}
               moveCard={moveCard}
             />
           )

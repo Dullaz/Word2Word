@@ -20,6 +20,7 @@ export interface CardProps {
   text: string;
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
+  enabled: boolean;
 }
 
 interface DragItem {
@@ -73,6 +74,10 @@ export const Card: React.FC<CardProps> = (props) => {
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
+    canDrag: (monitor: any) => {
+      console.log(!gprops.enabled)
+      return !props.enabled
+    }
   })
 
   const opacity = isDragging ? 0 : 1

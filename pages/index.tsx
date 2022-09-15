@@ -27,7 +27,7 @@ const Home: NextPage = () => {
         </p>
 
         <DndProvider backend={HTML5Backend}>
-          <WordGrid text='ABCD' />
+          <WordGrid text='ABCD' solution='DCBA'/>
         </DndProvider>
       </main>
 
