@@ -1,9 +1,8 @@
 import styles from '../styles/Home.module.css';
 import type { NextPage } from 'next';
 
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { TouchBackend } from 'react-dnd-touch-backend'
+import { DndProvider } from 'react-dnd-multi-backend'
+import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 
 import Head from 'next/head';
 import Image from 'next/image';
@@ -26,7 +25,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Word2Word</h1>
-        <DndProvider backend={supportsTouch ? TouchBackend : HTML5Backend}>
+        <DndProvider options={HTML5toTouch}>
           <WordGrid text='ABCDEFGHIJKLMNOP' solution='ABCDEFGHIJKLMONP'/>
         </DndProvider>
       </main>
