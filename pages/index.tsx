@@ -3,13 +3,19 @@ import type { NextPage } from 'next';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend'
 
 import Head from 'next/head';
 import Image from 'next/image';
 
 import {WordGrid} from '../components/WordGrid';
+import { useEffect } from 'react';
 
 const Home: NextPage = () => {
+  var supportsTouch = false;
+  if(!typeof window === undefined){
+    supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -20,7 +26,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Word2Word</h1>
-        <DndProvider backend={HTML5Backend}>
+        <DndProvider backend={supportsTouch ? TouchBackend : HTML5Backend}>
           <WordGrid text='ABCDEFGHIJKLMNOP' solution='ABCDEFGHIJKLMONP'/>
         </DndProvider>
       </main>
