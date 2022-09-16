@@ -20,14 +20,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Word2Word</h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
         <DndProvider backend={HTML5Backend}>
-          <WordGrid text='ABCD' solution='DCBA'/>
+          <WordGrid text='ABCDEFGHIJKLMNOP' solution='ABCDEFGHIJKLMONP'/>
         </DndProvider>
       </main>
 

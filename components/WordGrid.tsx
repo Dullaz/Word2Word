@@ -31,21 +31,16 @@ export const WordGrid: React.FC<Word> = ({ text, solution }) => {
 
   const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
     setCards((prevCards: Item[]) =>
-      update(prevCards, {
+      update(update(prevCards, {
         $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevCards[dragIndex] as Item],
+          [hoverIndex, 1, prevCards[dragIndex] as Item],
         ],
-      }),
-    );
+      }), {$splice: [[dragIndex, 1, prevCards[hoverIndex] as Item]]}))
   }, []);
-
-  // check if solution is met
-
-  console.log('STATE: ', solved);
 
   return (
     <>
+    <h2>{solved ? "Solved!" : ""}</h2>
       <div className={styles.grid}>
         {cards.map((card, i) => {
           return (

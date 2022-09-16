@@ -67,21 +67,22 @@
 
 .grid {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-content: center;
+  vertical-align: middle;
   flex-wrap: wrap;
-  width: 100%;
+  width: 50vw;
   border: 1px solid gray;
 }
 
 .card {
-  height: 100px;
-  width: 100px;
-  line-height: 100px;
-  text-align: center;
+  height: 10vw;
+  width: 10vw;
   color: inherit;
+  text-align: center;
+  vertical-align: middle;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  background-color:#eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
@@ -89,7 +90,8 @@
 .card span {
   display: inline-block;
   vertical-align: middle;
-  line-height: normal;
+  line-height: 10vw;
+  color: #111;
 }
 
 .logo {
