@@ -73,17 +73,17 @@ export const Card: React.FC<CardProps> = (props) => {
       isDragging: monitor.isDragging(),
     }),
     canDrag: (monitor: any) => {
-      console.log(!props.enabled);
-      return !props.enabled;
+      return props.enabled;
     },
   });
 
   const opacity = isDragging ? 0 : 1;
+  const toggledStyle = props.enabled ? '' : styles.disabled;
   drag(drop(ref));
   return (
     <div
       ref={ref}
-      className={styles.card}
+      className={`${styles.card} ${toggledStyle}`}
       style={{ opacity }}
       data-handler-id={handlerId}><span>{props.text}</span></div>
   );

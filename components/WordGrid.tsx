@@ -42,6 +42,14 @@ export const WordGrid: React.FC<Word> = ({ text, solution }) => {
       }), {$splice: [[dragIndex, 1, prevCards[hoverIndex] as Item]]}))
   }, []);
 
+  const isEnabled = (id: number, row: number, column: number, gridSize: number) => {
+    id += 1;
+    const isColumnEnabled: boolean = id % gridSize == column;
+    const isRowEnabled = id > (gridSize * (row-1)) && id <= (gridSize * row);
+
+    return isColumnEnabled || isRowEnabled;
+  }
+
   return (
     <DndProvider backend={MultiBackend} options={HTML5toTouch}>
     <h2>{solved ? "Solved!" : ""}</h2>
@@ -53,7 +61,7 @@ export const WordGrid: React.FC<Word> = ({ text, solution }) => {
               index={i}
               id={card.id}
               text={card.text}
-              enabled={solved}
+              enabled={isEnabled(i, 4, 3, 5)}
               moveCard={moveCard}
             />
           );
