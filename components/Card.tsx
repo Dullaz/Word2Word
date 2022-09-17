@@ -1,4 +1,4 @@
-import type { Identifier, XYCoord } from 'dnd-core';
+import type { Identifier } from 'dnd-core';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from '../styles/Home.module.css';
@@ -30,12 +30,11 @@ interface DragItem {
 }
 
 export const Card: React.FC<CardProps> = (props) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop<
   DragItem, 
   void, 
-  { handlerId: Identifier | null }
-  >({
+  { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
     collect(monitor) {
       return {
@@ -86,9 +85,6 @@ export const Card: React.FC<CardProps> = (props) => {
       ref={ref}
       className={styles.card}
       style={{ opacity }}
-      data-handler-id={handlerId}
-    >
-      <span>{props.text}</span>
-    </div>
+      data-handler-id={handlerId}><div className={styles.cardText}>{props.text}</div></div>
   );
 };

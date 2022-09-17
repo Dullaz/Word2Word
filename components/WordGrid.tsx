@@ -4,6 +4,10 @@ import update from 'immutability-helper';
 import { Card } from './Card';
 import styles from '../styles/Home.module.css';
 
+import { MultiBackend } from 'react-dnd-multi-backend'
+import { HTML5toTouch } from 'rdndmb-html5-to-touch'
+import { DndProvider } from 'react-dnd';
+
 export interface Word {
   text: string;
   solution: string;
@@ -39,7 +43,7 @@ export const WordGrid: React.FC<Word> = ({ text, solution }) => {
   }, []);
 
   return (
-    <>
+    <DndProvider backend={MultiBackend} options={HTML5toTouch}>
     <h2>{solved ? "Solved!" : ""}</h2>
       <div className={styles.grid}>
         {cards.map((card, i) => {
@@ -55,6 +59,6 @@ export const WordGrid: React.FC<Word> = ({ text, solution }) => {
           );
         })}
       </div>
-    </>
+    </DndProvider>
   );
 };

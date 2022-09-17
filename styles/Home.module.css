@@ -87,7 +87,7 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.card span {
+.cardText {
   display: inline-block;
   vertical-align: middle;
   line-height: 10vw;
