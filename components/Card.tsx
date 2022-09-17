@@ -85,6 +85,6 @@ export const Card: React.FC<CardProps> = (props) => {
       ref={ref}
       className={styles.card}
       style={{ opacity }}
-      data-handler-id={handlerId}><div className={styles.cardText}>{props.text}</div></div>
+      data-handler-id={handlerId}><span>{props.text}</span></div>
   );
 };

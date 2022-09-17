@@ -18,7 +18,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Word2Word</h1>
+        <h2 className={styles.title}>Keep Making Words</h2>
+        <p>Drag to rearrange</p>
         <WordGrid text='ABCDEFGHIJKLMNOP' solution='ABCDEFGHIJKLMONP'/>
       </main>
 

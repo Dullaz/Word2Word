@@ -42,7 +42,7 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 2rem;
 }
 
 .title,
@@ -71,13 +71,13 @@
   align-content: center;
   vertical-align: middle;
   flex-wrap: wrap;
-  width: 50vw;
-  border: 1px solid gray;
+  width: 50vh;
+  padding: 1px;
 }
 
 .card {
-  height: 10vw;
-  width: 10vw;
+  height: 10vh;
+  width: 10vh;
   color: inherit;
   text-align: center;
   vertical-align: middle;
@@ -87,11 +87,13 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.cardText {
+.card span {
   display: inline-block;
   vertical-align: middle;
-  line-height: 10vw;
+  line-height: 10vh;
   color: #111;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
 }
 
 .logo {
