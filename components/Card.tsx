@@ -48,6 +48,10 @@ export const Card: React.FC<CardProps> = (props) => {
       const dragIndex = item.index;
       const hoverIndex = props.index;
 
+      if(!props.enabled){
+        return;
+      }
+
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
         return;

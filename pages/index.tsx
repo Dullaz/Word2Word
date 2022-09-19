@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <h2 className={styles.title}>Keep Making Words</h2>
         <p>Drag to rearrange</p>
-        <WordGrid text='ABCDEFGHIJKLMNOPQRSTUVWXY' solution='BACDEFGHIJKLMNOPQRSTUVWXY'/>
+        <WordGrid/>
       </main>
 
       <footer className={styles.footer}>
