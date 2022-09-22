@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import {WordGrid} from '../components/WordGrid';
 
-const Home: NextPage = () => {
+const Home: NextPage = (data) => {
   return (
     <div className={styles.container}>
       <Head>

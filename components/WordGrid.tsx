@@ -10,11 +10,7 @@ import { DndProvider } from 'react-dnd';
 
 import {IntersectingWords} from '../pages/api/word'
 
-export interface Word {
-  text: string;
-  solution: string;
-  idx: number;
-}
+import {GridState, Word, Letter, DIRECTION} from "./GridState"
 
 export interface Item {
   id: number;
@@ -23,107 +19,53 @@ export interface Item {
 
 const SIZE = 5;
 
-const Shuffle = (text: string) => {
-  var a = text.split(""),
-      n = a.length;
+export const WordGrid: React.FC = (() => {
 
-  for(var i = n - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = a[i];
-      a[i] = a[j];
-      a[j] = tmp;
-  }
-  return a.join("");
-}
+  const gridState = new GridState(SIZE);
 
-const CopyArr = (oldGrid: Item[][]) => {
-  const newGrid: Item[][] = [];
-  for(var i=0;i<oldGrid.length;i++) {
-    newGrid[i] = [];
-    for(var j=0;j<oldGrid[i].length;j++) {
-      newGrid[i][j] = oldGrid[i][j];
-    }
-  }
-  return newGrid;
-}
-
-export const WordGrid: React.FC = () => {
-
-  const [gridState, setGrid] = useState<Item[][]>();
+  const [grid, setGrid] = useState<Letter[]>();
   useEffect(() => {
-    fetch('/api/word')
+
+    fetch("/api/word")
     .then((res) => res.json())
-    .then((data: IntersectingWords) => {
-
-      const grid: Item[][] = [];
-      for(var a = 0;a<SIZE;a++) {
-        grid[a] = [];
-        for(var b=0;b<SIZE;b++) {
-          grid[a][b] = {
-            id: (b*SIZE) + a,
-            text: "disabled"
-          };
-        }
+    .then((data) => {
+      const wordA: Word = {
+        text: data.wordA,
+        solution: data.wordA,
+        idx: data.intersectB,
+        padding: 0,
+        direction: DIRECTION.VERTICAL
       }
-      data.wordA.split("").forEach((v,i) => {
-        const col = data.intersectB;
-        const row = i;
-        grid[col][row] = {
-          id: (SIZE * i) + data.intersectB,
-          text: v
-        }
-      });
-      
-      data.wordB.split("").forEach((v, i) => {
-        const row = data.intersectA;
-        const col = i;
-        grid[col][row] = {
-          id: i + (row * SIZE),
-          text: v
-        }
-      })
+    
+      const wordB: Word = {
+        text: data.wordB,
+        solution: data.wordB,
+        idx: data.intersectA,
+        padding: 0,
+        direction: DIRECTION.HORIZONTAL
+      }
 
-      setGrid(grid);
-    })
-  },[false]);
+    gridState.init([wordA, wordB])
+    setGrid(gridState.get());
 
-
-
-  const [solved, setSolved] = useState(false);
-  
-
-  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-
-    const dragRow = Math.floor(dragIndex / SIZE);
-    const dragCol = dragIndex % SIZE;
-
-    const hoverRow = Math.floor(hoverIndex / SIZE);
-    const hoverCol = hoverIndex % SIZE;
-
-
-
-    setGrid((prevGrid?: Item[][]) => {
-      if(prevGrid == undefined) return;
-      const dragItem = prevGrid[dragCol][dragRow];
-      const hoverItem = prevGrid[hoverCol][hoverRow];
-
-      const newGrid = CopyArr(prevGrid);
-      newGrid[dragCol][dragIndex] = hoverItem;
-      prevGrid[hoverCol][hoverIndex] = dragItem;
-      console.log(prevGrid, newGrid);
-      return newGrid;
     });
   },[]);
 
+  // const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+
+  //   gridState.swap(hoverIndex, dragIndex);
+  //   setGrid(gridState.get());
+
+  // },[]);
+
   const isEnabled = (item: Item) => {
-    return item.text != "disabled";
+    return item.text != "";
   }
 
   return (
     <DndProvider backend={MultiBackend} options={HTML5toTouch}>
-    <h2>{solved ? "Solved!" : ""}</h2>
       <div className={styles.grid}>
-        {gridState?.flat().flat().map((card, i) => {
+        {grid?.map((card, i) => {
           return (
             <Card
               key={card.id}
@@ -131,11 +73,11 @@ export const WordGrid: React.FC = () => {
               id={i}
               text={card.text}
               enabled={isEnabled(card)}
-              moveCard={moveCard}
+              moveCard={((a,b) => console.log(a))}
             />
           );
         })}
       </div>
     </DndProvider>
   );
-}
+});
