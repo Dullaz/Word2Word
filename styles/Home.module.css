@@ -95,8 +95,9 @@
   vertical-align: middle;
   line-height: 10vh;
   color: #111;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: larger;
+  font-size: 4vh;
+  text-transform: uppercase;
+  
 }
 
 .logo {

@@ -21,13 +21,11 @@ const SIZE = 5;
 
 export const WordGrid: React.FC = (() => {
 
-  var gridState: GridState;
+  const gridState = new GridState(SIZE);
 
   const [grid, setGrid] = useState<Letter[]>();
 
   useEffect(() => {
-    
-    gridState = new GridState(SIZE);
 
     fetch("/api/word")
     .then((res) => res.json())

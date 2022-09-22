@@ -41,7 +41,7 @@ export const Card: React.FC<CardProps> = (props) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    drop(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
