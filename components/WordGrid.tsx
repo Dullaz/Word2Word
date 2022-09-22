@@ -21,10 +21,13 @@ const SIZE = 5;
 
 export const WordGrid: React.FC = (() => {
 
-  const gridState = new GridState(SIZE);
+  var gridState: GridState;
 
   const [grid, setGrid] = useState<Letter[]>();
+
   useEffect(() => {
+    
+    gridState = new GridState(SIZE);
 
     fetch("/api/word")
     .then((res) => res.json())
@@ -51,12 +54,12 @@ export const WordGrid: React.FC = (() => {
     });
   },[]);
 
-  // const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
 
-  //   gridState.swap(hoverIndex, dragIndex);
-  //   setGrid(gridState.get());
+    gridState.swap(hoverIndex, dragIndex);
+    setGrid(gridState.get());
 
-  // },[]);
+  },[]);
 
   const isEnabled = (item: Item) => {
     return item.text != "";
@@ -73,7 +76,7 @@ export const WordGrid: React.FC = (() => {
               id={i}
               text={card.text}
               enabled={isEnabled(card)}
-              moveCard={((a,b) => console.log(a))}
+              moveCard={moveCard}
             />
           );
         })}

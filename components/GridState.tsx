@@ -92,7 +92,7 @@ export class GridState {
     }
 
     public get(): Letter[] {
-        return this.letters;
+        return [...this.letters];
     }
 
     private dieOverwrite(text: string, c: string, offset: number) {
