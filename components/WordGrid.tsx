@@ -9,7 +9,7 @@ import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import { DndProvider } from 'react-dnd';
 
 import {GridState, Word, Letter, DIRECTION} from "./GridState"
-
+import { Shuffle } from './Utility';
 
 const SIZE = 5;
 
@@ -25,7 +25,7 @@ export const WordGrid: React.FC = (() => {
     .then((res) => res.json())
     .then((data) => {
       const wordA: Word = {
-        text: data.wordA,
+        text: Shuffle(data.wordA, [data.intersectA]),
         solution: data.wordA,
         idx: data.intersectB,
         padding: 0,
@@ -33,7 +33,7 @@ export const WordGrid: React.FC = (() => {
       }
     
       const wordB: Word = {
-        text: data.wordB,
+        text: Shuffle(data.wordB, [data.intersectB]),
         solution: data.wordB,
         idx: data.intersectA,
         padding: 0,

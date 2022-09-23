@@ -1,6 +1,10 @@
-export const Shuffle = (text: string) => {
-    var a = text.split(""),
-        n = a.length;
+export const Shuffle = (text: string, locked: number[]) => {
+
+    var a = text.split("");
+    locked.forEach((l) => {
+        a.splice(l, 1)
+    });
+    var n = a.length;
   
     for(var i = n - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -8,5 +12,9 @@ export const Shuffle = (text: string) => {
         a[i] = a[j];
         a[j] = tmp;
     }
-    return a.join("");
+    locked.forEach((l) => {
+        a.splice(l,0,text.charAt(l))
+    })
+
+    return a.join("")
   }

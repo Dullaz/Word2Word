@@ -79,7 +79,6 @@ export class GridState {
             // get offset
             var offset = word.idx + word.padding;
             word.text.split("").forEach((c) => {
-                console.log(c, offset);
                 const loc = this.letters.at(offset)!;
 
                 if(loc.enabled) {
