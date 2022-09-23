@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clientPromise from "../../lib/mongo";
+import conn from "../../lib/mongo";
+
 import {Document} from 'mongodb'
 
 const SIZE = 5;
@@ -24,7 +25,7 @@ export default async function handler(
   res: NextApiResponse<IntersectingWords>
 ) {
     try {
-        const client = await clientPromise;
+        const client = conn;
         const db = client.db("wordset")
         const collection = db.collection<WordDocument>("words")
 
