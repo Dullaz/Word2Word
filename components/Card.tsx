@@ -21,6 +21,7 @@ export interface CardProps {
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
   enabled: boolean;
+  locked: boolean;
 }
 
 interface DragItem {
@@ -48,7 +49,7 @@ export const Card: React.FC<CardProps> = (props) => {
       const dragIndex = item.index;
       const hoverIndex = props.index;
 
-      if(!props.enabled){
+      if(!props.enabled || props.locked){
         return;
       }
 
@@ -77,12 +78,22 @@ export const Card: React.FC<CardProps> = (props) => {
       isDragging: monitor.isDragging(),
     }),
     canDrag: (monitor: any) => {
-      return props.enabled;
+      return props.enabled && !props.locked;
     },
   });
 
+  function getStyle(enabled: boolean, locked: boolean) {
+    if(!enabled) {
+      return styles.disabled;
+    }
+    if(locked) {
+      return styles.locked;
+    }
+    return '';
+  }
   const opacity = isDragging ? 0 : 1;
-  const toggledStyle = props.enabled ? '' : styles.disabled;
+  const toggledStyle = getStyle(props.enabled, props.locked);
+  
   drag(drop(ref));
   return (
     <div

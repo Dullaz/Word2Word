@@ -8,14 +8,8 @@ import { MultiBackend } from 'react-dnd-multi-backend'
 import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import { DndProvider } from 'react-dnd';
 
-import {IntersectingWords} from '../pages/api/word'
-
 import {GridState, Word, Letter, DIRECTION} from "./GridState"
 
-export interface Item {
-  id: number;
-  text: string;
-}
 
 const SIZE = 5;
 
@@ -59,10 +53,6 @@ export const WordGrid: React.FC = (() => {
 
   },[]);
 
-  const isEnabled = (item: Item) => {
-    return item.text != "";
-  }
-
   return (
     <DndProvider backend={MultiBackend} options={HTML5toTouch}>
       <div className={styles.grid}>
@@ -73,8 +63,9 @@ export const WordGrid: React.FC = (() => {
               index={i}
               id={i}
               text={card.text}
-              enabled={isEnabled(card)}
+              enabled={card.enabled}
               moveCard={moveCard}
+              locked={card.locked}
             />
           );
         })}

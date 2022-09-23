@@ -90,6 +90,10 @@
   background-color: #111 !important;
 }
 
+.locked {
+  background-color: #d2d0d0 !important;
+}
+
 .card span {
   display: inline-block;
   vertical-align: middle;

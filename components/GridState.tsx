@@ -16,6 +16,8 @@ export interface Word {
   export interface Letter {
     id: number;
     text: string;
+    enabled: boolean;
+    locked: boolean;
 
   }
 
@@ -31,7 +33,9 @@ export class GridState {
         for(var i=0;i<Math.pow(this.gridSize,2);i++) {
             this.letters[i] = {
                 id:i,
-                text:""
+                text:"",
+                enabled: false,
+                locked: false,
             }
         }
     }
@@ -51,10 +55,17 @@ export class GridState {
             word.text.split("").forEach((c: string) => {
                 
                 const loc = this.letters.at(offset)!;
-                if(loc.text != c && loc.text != "") {
-                    this.dieOverwrite(loc.text, c, offset);
+
+                if(loc.enabled) {
+                    if(loc.text != c) this.dieOverwrite(loc.text, c, offset);
+                    loc.locked = true;
+                    offset++;
+                    return;
                 }
+
                 loc.text = c;
+                loc.enabled = true;
+
                 offset++;
             });
         });
@@ -68,14 +79,18 @@ export class GridState {
             // get offset
             var offset = word.idx + word.padding;
             word.text.split("").forEach((c) => {
-
+                console.log(c, offset);
                 const loc = this.letters.at(offset)!;
 
-                if(loc.text != c && loc.text != "") {
-                    this.dieOverwrite(loc.text, c, offset);
+                if(loc.enabled) {
+                    if(loc.text != c) this.dieOverwrite(loc.text, c, offset);
+                    loc.locked=true;
+                    offset += this.gridSize;
+                    return;
                 }
 
                 loc.text = c;
+                loc.enabled = true;
                 offset += this.gridSize;
             });
         });
