@@ -8,7 +8,7 @@ import { MultiBackend } from 'react-dnd-multi-backend'
 import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import { DndProvider } from 'react-dnd';
 
-import {GridState, Word, Letter, DIRECTION} from "./GridState"
+import {GridState, Word, Letter, DIRECTION, LETTER_STATE} from "./GridState"
 import { Shuffle } from './Utility';
 
 const SIZE = 5;
@@ -53,6 +53,15 @@ export const WordGrid: React.FC = (() => {
 
   },[]);
 
+  const dragEvent = useCallback((dragIndex: number, direction: DIRECTION) => {
+    gridState.lock(dragIndex, direction);
+    setGrid(gridState.get());
+  },[]);
+
+  const release = useCallback(() => {
+    gridState.unlock();
+    setGrid(gridState.get());
+  },[])
   return (
     <DndProvider backend={MultiBackend} options={HTML5toTouch}>
       <div className={styles.grid}>
@@ -63,9 +72,10 @@ export const WordGrid: React.FC = (() => {
               index={i}
               id={i}
               text={card.text}
-              enabled={card.enabled}
+              state={card.state}
               moveCard={moveCard}
-              locked={card.locked}
+              dragEvent={dragEvent}
+              release={release}
             />
           );
         })}
