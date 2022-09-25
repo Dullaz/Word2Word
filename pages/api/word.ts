@@ -1,17 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import conn from "../../lib/mongo";
 
-import {Document} from 'mongodb'
+import { Word, DIRECTION } from '../../components/word/Definitions';
+import { Shuffle } from '../../components/Utility';
 
 const SIZE = 5;
 
-
-export interface IntersectingWords {
-    wordA: string,
-    wordB: string,
-    intersectA: number,
-    intersectB: number
-}
 export interface CharDocument {
     value: string,
     position: number
@@ -22,7 +16,7 @@ export interface WordDocument {
 }
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<IntersectingWords>
+  res: NextApiResponse<Word[]>
 ) {
     try {
         const client = conn;
@@ -45,12 +39,25 @@ export default async function handler(
             .aggregate(pipeline)
             .tryNext())?.value;
 
-        res.status(200).json({
-            wordA,
-            wordB,
-            intersectA: idx,
-            intersectB: pos
-        })
+
+        const words: Word[] = [
+            {
+                text: Shuffle(wordA, [idx]),
+                solution: wordA,
+                idx: pos,
+                direction: DIRECTION.HORIZONTAL,
+                padding: 0
+            },
+            {
+                text: Shuffle(wordB, [pos]),
+                solution: wordB,
+                idx: idx,
+                direction: DIRECTION.VERTICAL,
+                padding: 0
+            },
+        ]
+
+        res.status(200).json(words)
     } catch(e) {
         res.status(500);
     }

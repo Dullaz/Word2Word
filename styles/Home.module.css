@@ -2,6 +2,13 @@
   padding: 0 2rem;
 }
 
+.control {
+  position: absolute;
+  float: left;
+  margin-left: 1em;
+  margin-top: 1em;
+}
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -94,6 +101,10 @@
   background-color: #a1a1a1 !important;
 }
 
+.solved {
+  background-color: rgb(175, 240, 110)
+}
+
 .card span {
   display: inline-block;
   vertical-align: middle;
@@ -107,6 +118,20 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.GameGrid {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  vertical-align: middle;
+  flex-wrap: wrap;
+  width: 70vw;
+}
+
+.GameCard {
+  text-align: center;
+  margin: 1em;
 }
 
 
